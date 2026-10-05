@@ -7,6 +7,8 @@ import Google from "next-auth/providers/google";
  */
 export default {
   providers: [Google],
+  // Derrière le proxy de Railway, l'hôte vient des en-têtes x-forwarded-* : on le fait confiance.
+  trustHost: true,
   pages: { signIn: "/login" },
   session: { strategy: "jwt" },
   callbacks: {
