@@ -14,8 +14,9 @@ export default {
   session: { strategy: "jwt" },
   callbacks: {
     session({ session, token }) {
-      const t = token as { registered?: boolean };
-      Object.assign(session.user, { registered: t.registered === true });
+      const t = token as { sub?: string; registered?: boolean };
+      // En mode JWT, Auth.js ne renseigne pas user.id : on y met l'identifiant Google (token.sub).
+      Object.assign(session.user, { id: t.sub ?? "", registered: t.registered === true });
       return session;
     },
     authorized({ auth, request }) {

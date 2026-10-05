@@ -14,7 +14,9 @@ export default async function InscriptionPage({
   searchParams: Promise<{ callbackUrl?: string; erreur?: string }>;
 }) {
   const session = await auth();
-  if (!session?.user?.id) redirect("/login");
+  if (!session?.user) redirect("/login");
+  // Garde-fou : jamais de redirection en boucle si l'identifiant manquait.
+  if (!session.user.id) throw new Error("Session sans identifiant : reconnectez-vous.");
   const { callbackUrl, erreur } = await searchParams;
   const member = getMember(session.user.id);
   const errors = new Set((erreur ?? "").split(",").filter(Boolean));
