@@ -3,9 +3,11 @@
 Journal en ligne de Nantes et de sa métropole, dans l'esprit des grands quotidiens nationaux, aux couleurs orange de Nantes.
 
 - **Next.js 15** (App Router, React 19) avec typographie Newsreader / Inter
-- **Connexion Google obligatoire** sur tout le site (Auth.js v5)
-- **Base SQLite** locale qui enregistre chaque membre et chaque connexion
-- **Espace `/admin`** protégé par mot de passe : liste des membres (prénom, nom, e-mail, avatar, dates) et historique des connexions (IP, appareil)
+- **Connexion Google obligatoire** sur tout le site (Auth.js v5), puis **formulaire d'inscription** (prénom, nom, téléphone facultatif)
+- **Articles partageables** : chaque article a un lien avec son identifiant en fin d'URL (`/article/<slug>_<id>`). Un visiteur non connecté qui ouvre ce lien voit le début de l'article et une fenêtre bloquante l'invite à s'inscrire avec Google ; il revient ensuite sur l'article
+- **Photos** libres de droits issues de Wikimedia Commons (crédits affichés sous chaque photo)
+- **Base SQLite** qui enregistre chaque membre et chaque connexion
+- **Espace `/admin`** protégé par mot de passe : fiches des membres (prénom, nom, e-mail vérifié ou non, téléphone, langue, inscription complète ou non, dernière IP, appareil, dates) et historique des connexions
 
 > Les articles sont des contenus fictifs de démonstration.
 
@@ -42,6 +44,12 @@ npm run dev
 
 Le site est disponible sur <http://localhost:3000>. Toute page redirige vers `/login` tant que l'on n'est pas connecté avec Google. L'espace d'administration est sur <http://localhost:3000/admin>.
 
+## Parcours d'un visiteur
+
+1. Il arrive sur une page (ou sur un lien d'article partagé). Sans compte, une fenêtre l'invite à s'inscrire avec Google.
+2. Après Google, s'il n'a jamais rempli sa fiche, il est envoyé sur `/inscription` (prénom et nom obligatoires, téléphone facultatif).
+3. Il est ensuite ramené sur la page demandée. Les visites suivantes sont directes.
+
 ## Structure
 
 ```
@@ -50,6 +58,7 @@ app/
   article/[slug]/          Page article
   rubrique/[slug]/         Page rubrique
   login/                   Connexion Google
+  inscription/             Formulaire prénom / nom / téléphone après Google
   admin/                   Tableau de bord protégé par mot de passe
   api/auth/[...nextauth]/  Routes Auth.js
 auth.ts / auth.config.ts   Configuration Auth.js (Google + enregistrement des connexions)

@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { type Article, formatDate, getCategory } from "@/lib/articles";
-import { ArtVisual } from "./ArtVisual";
+import { type Article, articlePath, formatDate, getCategory } from "@/lib/articles";
+import { ArticleImage } from "./ArticleImage";
 
 type Props = {
   article: Article;
@@ -9,13 +9,13 @@ type Props = {
 
 export function ArticleCard({ article, variant = "standard" }: Props) {
   const cat = getCategory(article.category);
-  const href = `/article/${article.slug}`;
+  const href = articlePath(article);
 
   if (variant === "hero") {
     return (
       <article className="card card--hero">
         <Link href={href} className="card__visual">
-          <ArtVisual seed={article.slug} />
+          <ArticleImage image={article.image} alt={article.image.caption} eager />
         </Link>
         <div className="card__body">
           <span className="kicker">{cat?.name}</span>
@@ -49,7 +49,7 @@ export function ArticleCard({ article, variant = "standard" }: Props) {
     return (
       <article className="card card--list">
         <Link href={href} className="card__visual">
-          <ArtVisual seed={article.slug} />
+          <ArticleImage image={article.image} alt={article.image.caption} />
         </Link>
         <div className="card__body">
           <span className="kicker">{cat?.name}</span>
@@ -68,7 +68,7 @@ export function ArticleCard({ article, variant = "standard" }: Props) {
   return (
     <article className="card">
       <Link href={href} className="card__visual">
-        <ArtVisual seed={article.slug} />
+        <ArticleImage image={article.image} alt={article.image.caption} />
       </Link>
       <div className="card__body">
         <span className="kicker">{cat?.name}</span>

@@ -12,8 +12,17 @@ export const CATEGORIES: Category[] = [
   { slug: "environnement", name: "Environnement" },
 ];
 
+export type ArticleImage = {
+  src: string;
+  caption: string;
+  credit: string;
+};
+
 export type Article = {
   slug: string;
+  /** Identifiant stable, utilisé en fin d'URL : /article/<slug>_<id> */
+  id: number;
+  image: ArticleImage;
   category: string;
   title: string;
   chapo: string;
@@ -28,6 +37,12 @@ export type Article = {
 export const ARTICLES: Article[] = [
   {
     slug: "ligne-5-tramway-ouverture",
+    id: 100101,
+    image: {
+      src: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Alsthom_TFS_n%C2%B0303_Commerce.jpg/1280px-Alsthom_TFS_n%C2%B0303_Commerce.jpg",
+      caption: "Une rame du tramway nantais place du Commerce.",
+      credit: "Florian Fèvre / Wikimedia Commons, CC BY-SA 4.0",
+    },
     category: "societe",
     title: "Le tramway franchit la Loire : la ligne 5 ouvre enfin ses portes aux Nantais",
     chapo:
@@ -46,6 +61,12 @@ export const ARTICLES: Article[] = [
   },
   {
     slug: "arbre-aux-herons-chantier",
+    id: 100102,
+    image: {
+      src: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Grand_%C3%A9l%C3%A9phant%2C_Nantes-23.jpg/1280px-Grand_%C3%A9l%C3%A9phant%2C_Nantes-23.jpg",
+      caption: "Le Grand Éléphant des Machines de l'île.",
+      credit: "MHM55 / Wikimedia Commons, CC BY-SA 4.0",
+    },
     category: "culture",
     title: "L'Arbre aux Hérons prend racine : le chantier démarre sur la carrière Miséry",
     chapo:
@@ -62,6 +83,12 @@ export const ARTICLES: Article[] = [
   },
   {
     slug: "fc-nantes-beaujoire-victoire",
+    id: 100103,
+    image: {
+      src: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Stade_de_la_Beaujoire%2C_vue_de_la_tribune_pr%C3%A9sidentielle.jpg/1280px-Stade_de_la_Beaujoire%2C_vue_de_la_tribune_pr%C3%A9sidentielle.jpg",
+      caption: "Le stade de la Beaujoire vu de la tribune présidentielle.",
+      credit: "Sylvain258 / Wikimedia Commons, CC BY-SA 4.0",
+    },
     category: "sport",
     title: "À la Beaujoire, le FC Nantes renverse Rennes et relance sa saison",
     chapo:
@@ -78,6 +105,12 @@ export const ARTICLES: Article[] = [
   },
   {
     slug: "baignade-loire-etude",
+    id: 100104,
+    image: {
+      src: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Nantes_%2844%29_La_ville_vue_de_la_butte_Sainte-Anne_-_02.jpg/1280px-Nantes_%2844%29_La_ville_vue_de_la_butte_Sainte-Anne_-_02.jpg",
+      caption: "La Loire et la ville vues de la butte Sainte-Anne.",
+      credit: "GO69 / Wikimedia Commons, CC BY-SA 4.0",
+    },
     category: "environnement",
     title: "Se baigner dans la Loire à Nantes : l'étude qui relance le débat",
     chapo:
@@ -95,6 +128,12 @@ export const ARTICLES: Article[] = [
   },
   {
     slug: "talensac-renovation-halles",
+    id: 100105,
+    image: {
+      src: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/March%C3%A9_de_Talensac_-_1.JPG/1280px-March%C3%A9_de_Talensac_-_1.JPG",
+      caption: "Les halles du marché de Talensac.",
+      credit: "Pj44300 / Wikimedia Commons, CC BY-SA 4.0",
+    },
     category: "societe",
     title: "Talensac fait peau neuve : ce qui va changer pour le plus grand marché de la ville",
     chapo:
@@ -111,6 +150,12 @@ export const ARTICLES: Article[] = [
   },
   {
     slug: "voyage-a-nantes-bilan-2026",
+    id: 100106,
+    image: {
+      src: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Les_anneaux_%28Buren%29.jpg/1280px-Les_anneaux_%28Buren%29.jpg",
+      caption: "Les Anneaux de Daniel Buren sur le quai des Antilles.",
+      credit: "MiklGds / Wikimedia Commons, CC BY-SA 4.0",
+    },
     category: "culture",
     title: "Le Voyage à Nantes 2026 : record de fréquentation et polémique sur l'anneau de la pointe",
     chapo:
@@ -127,6 +172,12 @@ export const ARTICLES: Article[] = [
   },
   {
     slug: "airbus-nantes-recrutements",
+    id: 100107,
+    image: {
+      src: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Airbus_Nantes.jpg/1280px-Airbus_Nantes.jpg",
+      caption: "L'usine Airbus de Nantes-Bouguenais.",
+      credit: "Steff / Wikimedia Commons, CC BY-SA 3.0",
+    },
     category: "economie",
     title: "Airbus recrute 600 personnes à Bouguenais pour le futur avion à hydrogène",
     chapo:
@@ -144,6 +195,12 @@ export const ARTICLES: Article[] = [
   },
   {
     slug: "conseil-metropolitain-budget-2027",
+    id: 100108,
+    image: {
+      src: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/be/Nantes_-_Hotel_de_ville_05.jpg/1280px-Nantes_-_Hotel_de_ville_05.jpg",
+      caption: "L'hôtel de ville de Nantes.",
+      credit: "Selbymay / Wikimedia Commons, CC BY-SA 3.0",
+    },
     category: "politique",
     title: "Budget 2027 : la métropole serre la vis et sacrifie le projet de téléphérique",
     chapo:
@@ -160,6 +217,12 @@ export const ARTICLES: Article[] = [
   },
   {
     slug: "loyers-nantes-encadrement",
+    id: 100109,
+    image: {
+      src: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Nantes_-_Place_Graslin_-_03.jpg/1280px-Nantes_-_Place_Graslin_-_03.jpg",
+      caption: "Immeubles de la place Graslin, en centre-ville.",
+      credit: "François de Dijon / Wikimedia Commons, CC BY-SA 4.0",
+    },
     category: "economie",
     title: "Encadrement des loyers : à Nantes, un bailleur sur quatre dépasse encore le plafond",
     chapo:
@@ -176,6 +239,12 @@ export const ARTICLES: Article[] = [
   },
   {
     slug: "ilots-de-fraicheur-plan-canopee",
+    id: 100110,
+    image: {
+      src: "https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Jardin_des_plantes_de_Nantes_in_Winter_%28December%29_41.jpg/1280px-Jardin_des_plantes_de_Nantes_in_Winter_%28December%29_41.jpg",
+      caption: "Le Jardin des plantes de Nantes.",
+      credit: "John Samuel / Wikimedia Commons, CC BY-SA 4.0",
+    },
     category: "environnement",
     title: "Après un été à 41 °C, Nantes veut planter 100 000 arbres d'ici 2030",
     chapo:
@@ -192,6 +261,12 @@ export const ARTICLES: Article[] = [
   },
   {
     slug: "hbc-nantes-ligue-des-champions",
+    id: 100111,
+    image: {
+      src: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/PalaisdesSportsBeaulieu-Nantes-CDL2011.JPG/1280px-PalaisdesSportsBeaulieu-Nantes-CDL2011.JPG",
+      caption: "Le Palais des sports de Beaulieu.",
+      credit: "Arthur Satour / Wikimedia Commons, CC BY-SA 3.0",
+    },
     category: "sport",
     title: "Le HBC Nantes s'offre Kiel et prend la tête de son groupe de Ligue des champions",
     chapo:
@@ -208,6 +283,12 @@ export const ARTICLES: Article[] = [
   },
   {
     slug: "chateau-ducs-exposition-anne-bretagne",
+    id: 100112,
+    image: {
+      src: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/NantesChateau_08.jpg/1280px-NantesChateau_08.jpg",
+      caption: "Le château des ducs de Bretagne.",
+      credit: "Selbymay / Wikimedia Commons, CC BY-SA 4.0",
+    },
     category: "culture",
     title: "Au château des ducs, Anne de Bretagne sort de la légende",
     chapo:
@@ -226,6 +307,23 @@ export const ARTICLES: Article[] = [
 
 export function getArticle(slug: string) {
   return ARTICLES.find((a) => a.slug === slug);
+}
+
+export function getArticleById(id: number) {
+  return ARTICLES.find((a) => a.id === id);
+}
+
+/** Chemin canonique d'un article : /article/<slug>_<id> */
+export function articlePath(a: Pick<Article, "slug" | "id">) {
+  return `/article/${a.slug}_${a.id}`;
+}
+
+/** Décompose le paramètre d'URL "<slug>_<id>" (l'id en fin de lien fait foi). */
+export function parseArticleParam(param: string): { slug: string; id: number | null } {
+  const i = param.lastIndexOf("_");
+  if (i === -1) return { slug: param, id: null };
+  const id = Number(param.slice(i + 1));
+  return { slug: param.slice(0, i), id: Number.isInteger(id) ? id : null };
 }
 
 export function getCategory(slug: string) {

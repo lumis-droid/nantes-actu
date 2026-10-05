@@ -486,3 +486,68 @@ table { border-collapse: collapse; }
   .admin__head { flex-direction: column; }
   .admin__head form { padding-top: 0; }
 }
+
+/* ---------- Photos ---------- */
+.card__visual { aspect-ratio: 16 / 10; background: var(--accent-soft); }
+.photo { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s ease; }
+.card__visual:hover .photo { transform: scale(1.03); }
+.article__figure .photo { aspect-ratio: 16 / 9; }
+.article__figure .credit { color: #9a9a9a; }
+
+/* ---------- Article verrouillé + fenêtre d'inscription ---------- */
+.article--locked .article__body { position: relative; max-height: 220px; overflow: hidden; }
+.article__fade {
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(255,255,255,0) 20%, #fff 95%);
+}
+.paywall {
+  position: fixed; inset: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  background: rgba(26, 26, 26, 0.55);
+  backdrop-filter: blur(4px);
+}
+.paywall__card {
+  width: 100%; max-width: 460px;
+  background: var(--paper);
+  border-top: 5px solid var(--accent);
+  padding: 40px 36px;
+  text-align: center;
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
+  box-shadow: 0 24px 60px rgba(0,0,0,0.3);
+  animation: paywall-in 0.35s ease-out;
+}
+@keyframes paywall-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+.paywall__title { font-size: 28px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; }
+.paywall__text { color: var(--ink-soft); font-size: 16px; }
+
+/* ---------- Partage ---------- */
+.share {
+  margin-top: 36px; padding: 20px 22px;
+  border: 1px solid var(--rule); border-left: 4px solid var(--accent);
+  background: var(--paper-soft);
+  font-family: var(--sans);
+}
+.share__label { display: block; font-size: 12px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 10px; }
+.share__row { display: flex; gap: 10px; }
+.share__input { flex: 1; min-width: 0; font: inherit; font-size: 14px; padding: 10px 12px; border: 1px solid #cfcac2; border-radius: 3px; background: #fff; }
+
+/* ---------- Formulaire d'inscription ---------- */
+.login__card--form { max-width: 520px; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form-row > div { display: flex; flex-direction: column; gap: 6px; }
+.form-row .admin-form__input { width: 100%; margin-bottom: 0; }
+.admin-form__label { display: block; margin-top: 6px; }
+.optional { font-weight: 400; color: var(--muted); }
+.admin-form__input.is-invalid { border-color: #b00020; }
+@media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+
+/* ---------- Badges admin ---------- */
+.badge {
+  display: inline-block; margin-left: 8px; padding: 2px 8px;
+  border-radius: 999px; font-size: 11px; font-weight: 600; letter-spacing: 0.02em;
+}
+.badge--ok { background: #e6f4ea; color: #1e7b34; }
+.badge--warn { background: #fff1e8; color: var(--accent-dark); }
+.stats { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 960px) { .stats { grid-template-columns: 1fr 1fr; } }

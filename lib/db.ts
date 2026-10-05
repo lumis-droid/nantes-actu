@@ -10,8 +10,15 @@ export type Member = {
   given_name: string;
   family_name: string;
   image: string;
+  phone: string;
+  locale: string;
+  email_verified: number;
+  registered: number;
+  registered_at: string | null;
   first_login: string;
   last_login: string;
+  last_ip: string;
+  last_user_agent: string;
   login_count: number;
 };
 
@@ -31,6 +38,7 @@ function open() {
   fs.mkdirSync(dir, { recursive: true });
   const db = new Database(path.join(dir, "nantes-actu.db"));
   db.pragma("journal_mode = WAL");
+  db.pragma("busy_timeout = 5000");
   db.exec(`
     CREATE TABLE IF NOT EXISTS members (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -53,6 +61,22 @@ function open() {
     );
     CREATE INDEX IF NOT EXISTS logins_at ON logins(at DESC);
   `);
+  // Migrations légères : ajout des colonnes manquantes sur une base existante.
+  const existing = new Set(
+    (db.prepare("PRAGMA table_info(members)").all() as { name: string }[]).map((c) => c.name)
+  );
+  const wanted: [string, string][] = [
+    ["phone", "TEXT NOT NULL DEFAULT ''"],
+    ["locale", "TEXT NOT NULL DEFAULT ''"],
+    ["email_verified", "INTEGER NOT NULL DEFAULT 0"],
+    ["registered", "INTEGER NOT NULL DEFAULT 0"],
+    ["registered_at", "TEXT"],
+    ["last_ip", "TEXT NOT NULL DEFAULT ''"],
+    ["last_user_agent", "TEXT NOT NULL DEFAULT ''"],
+  ];
+  for (const [col, type] of wanted) {
+    if (!existing.has(col)) db.exec(`ALTER TABLE members ADD COLUMN ${col} ${type}`);
+  }
   return db;
 }
 
@@ -60,11 +84,7 @@ function open() {
 // rechargements à chaud en dev (et jamais ouverte pendant le build).
 const globalForDb = globalThis as unknown as { __nantesActuDb?: Database.Database };
 function getDb() {
-  if (!globalForDb.__nantesActuDb) {
-    const d = open();
-    d.pragma("busy_timeout = 5000");
-    globalForDb.__nantesActuDb = d;
-  }
+  if (!globalForDb.__nantesActuDb) globalForDb.__nantesActuDb = open();
   return globalForDb.__nantesActuDb;
 }
 
@@ -75,6 +95,8 @@ export function recordLogin(input: {
   givenName: string;
   familyName: string;
   image: string;
+  locale: string;
+  emailVerified: boolean;
   ip: string;
   userAgent: string;
 }) {
@@ -82,17 +104,24 @@ export function recordLogin(input: {
   const now = new Date().toISOString();
   const tx = db.transaction(() => {
     db.prepare(
-      `INSERT INTO members (google_id, email, name, given_name, family_name, image, first_login, last_login, login_count)
-       VALUES (@googleId, @email, @name, @givenName, @familyName, @image, @now, @now, 1)
+      `INSERT INTO members (google_id, email, name, given_name, family_name, image, locale, email_verified,
+                            first_login, last_login, last_ip, last_user_agent, login_count)
+       VALUES (@googleId, @email, @name, @givenName, @familyName, @image, @locale, @emailVerified,
+               @now, @now, @ip, @userAgent, 1)
        ON CONFLICT(google_id) DO UPDATE SET
          email = excluded.email,
          name = excluded.name,
-         given_name = excluded.given_name,
-         family_name = excluded.family_name,
+         -- une fois inscrit, le nom saisi par le membre prime sur celui de Google
+         given_name = CASE WHEN members.registered = 1 THEN members.given_name ELSE excluded.given_name END,
+         family_name = CASE WHEN members.registered = 1 THEN members.family_name ELSE excluded.family_name END,
          image = excluded.image,
+         locale = CASE WHEN excluded.locale <> '' THEN excluded.locale ELSE members.locale END,
+         email_verified = excluded.email_verified,
          last_login = excluded.last_login,
+         last_ip = excluded.last_ip,
+         last_user_agent = excluded.last_user_agent,
          login_count = members.login_count + 1`
-    ).run({ ...input, now });
+    ).run({ ...input, emailVerified: input.emailVerified ? 1 : 0, now });
     const member = db
       .prepare("SELECT id FROM members WHERE google_id = ?")
       .get(input.googleId) as { id: number };
@@ -101,6 +130,31 @@ export function recordLogin(input: {
     ).run(member.id, now, input.ip, input.userAgent);
   });
   tx();
+}
+
+export function getMember(googleId: string): Member | undefined {
+  return getDb().prepare("SELECT * FROM members WHERE google_id = ?").get(googleId) as Member | undefined;
+}
+
+export function isRegistered(googleId: string): boolean {
+  const row = getDb()
+    .prepare("SELECT registered FROM members WHERE google_id = ?")
+    .get(googleId) as { registered: number } | undefined;
+  return row?.registered === 1;
+}
+
+export function completeProfile(
+  googleId: string,
+  data: { givenName: string; familyName: string; phone: string }
+) {
+  getDb()
+    .prepare(
+      `UPDATE members SET given_name = @givenName, family_name = @familyName, phone = @phone,
+                          name = @givenName || ' ' || @familyName,
+                          registered = 1, registered_at = COALESCE(registered_at, @now)
+       WHERE google_id = @googleId`
+    )
+    .run({ ...data, googleId, now: new Date().toISOString() });
 }
 
 export function listMembers(): Member[] {
@@ -119,12 +173,14 @@ export function listLogins(limit = 200): LoginEvent[] {
 
 export function stats() {
   const db = getDb();
-  const members = (db.prepare("SELECT COUNT(*) AS n FROM members").get() as { n: number }).n;
-  const logins = (db.prepare("SELECT COUNT(*) AS n FROM logins").get() as { n: number }).n;
+  const count = (sql: string, ...args: unknown[]) =>
+    (db.prepare(sql).get(...args) as { n: number }).n;
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  const loginsToday = (
-    db.prepare("SELECT COUNT(*) AS n FROM logins WHERE at >= ?").get(today.toISOString()) as { n: number }
-  ).n;
-  return { members, logins, loginsToday };
+  return {
+    members: count("SELECT COUNT(*) AS n FROM members"),
+    registered: count("SELECT COUNT(*) AS n FROM members WHERE registered = 1"),
+    logins: count("SELECT COUNT(*) AS n FROM logins"),
+    loginsToday: count("SELECT COUNT(*) AS n FROM logins WHERE at >= ?", today.toISOString()),
+  };
 }

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ArticleCard } from "@/components/ArticleCard";
-import { CATEGORIES, articlesByCategory, latestArticles, mostRead } from "@/lib/articles";
+import { CATEGORIES, articlePath, articlesByCategory, latestArticles, mostRead } from "@/lib/articles";
 
 export default function Home() {
   const all = latestArticles();
@@ -27,7 +27,7 @@ export default function Home() {
             {top.map((a, i) => (
               <li key={a.slug} className="rank__item">
                 <span className="rank__num">{i + 1}</span>
-                <Link href={`/article/${a.slug}`}>{a.title}</Link>
+                <Link href={articlePath(a)}>{a.title}</Link>
               </li>
             ))}
           </ol>

@@ -73,7 +73,7 @@ export default async function AdminPage({
       <div className="admin__head">
         <div>
           <h1 className="page-title">Administration</h1>
-          <p className="admin__sub">Membres inscrits et historique des connexions Google.</p>
+          <p className="admin__sub">Fiches des membres (identité Google, inscription, téléphone) et historique des connexions.</p>
         </div>
         <form action={logoutAdmin}>
           <button type="submit" className="button button--ghost">Quitter l'admin</button>
@@ -83,7 +83,11 @@ export default async function AdminPage({
       <div className="stats">
         <div className="stat">
           <span className="stat__value">{s.members}</span>
-          <span className="stat__label">membres inscrits</span>
+          <span className="stat__label">membres connectés via Google</span>
+        </div>
+        <div className="stat">
+          <span className="stat__value">{s.registered}</span>
+          <span className="stat__label">inscriptions complètes</span>
         </div>
         <div className="stat">
           <span className="stat__value">{s.loginsToday}</span>
@@ -105,8 +109,13 @@ export default async function AdminPage({
                 <th>Prénom</th>
                 <th>Nom</th>
                 <th>E-mail</th>
+                <th>Téléphone</th>
+                <th>Inscription</th>
+                <th>Langue</th>
                 <th>Première connexion</th>
                 <th>Dernière connexion</th>
+                <th>Dernière IP</th>
+                <th>Appareil</th>
                 <th>Connexions</th>
               </tr>
             </thead>
@@ -116,21 +125,35 @@ export default async function AdminPage({
                   <td>
                     {m.image ? (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img src={m.image} alt="" className="avatar avatar--lg" width={32} height={32} />
+                      <img src={m.image} alt="" className="avatar avatar--lg" width={32} height={32} referrerPolicy="no-referrer" />
                     ) : (
                       <span className="avatar avatar--lg avatar--placeholder">{(m.name || m.email)[0]}</span>
                     )}
                   </td>
                   <td>{m.given_name || "—"}</td>
                   <td>{m.family_name || "—"}</td>
-                  <td><a href={`mailto:${m.email}`}>{m.email}</a></td>
+                  <td>
+                    <a href={`mailto:${m.email}`}>{m.email}</a>
+                    {m.email_verified ? <span className="badge badge--ok" title="Adresse vérifiée par Google">vérifié</span> : null}
+                  </td>
+                  <td>{m.phone ? <a href={`tel:${m.phone}`}>{m.phone}</a> : "—"}</td>
+                  <td>
+                    {m.registered ? (
+                      <span className="badge badge--ok" title={m.registered_at ? fmt(m.registered_at) : ""}>complète</span>
+                    ) : (
+                      <span className="badge badge--warn">incomplète</span>
+                    )}
+                  </td>
+                  <td>{m.locale || "—"}</td>
                   <td>{fmt(m.first_login)}</td>
                   <td>{fmt(m.last_login)}</td>
+                  <td>{m.last_ip || "—"}</td>
+                  <td title={m.last_user_agent}>{shortUA(m.last_user_agent)}</td>
                   <td className="num">{m.login_count}</td>
                 </tr>
               ))}
               {members.length === 0 && (
-                <tr><td colSpan={7} className="empty">Aucun membre pour le moment.</td></tr>
+                <tr><td colSpan={12} className="empty">Aucun membre pour le moment.</td></tr>
               )}
             </tbody>
           </table>
