@@ -36,6 +36,37 @@ export type Article = {
 
 export const ARTICLES: Article[] = [
   {
+    slug: "blocus-lycees-nantes-mobilisation-divisee",
+    id: 100113,
+    image: {
+      src: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Nantes_-_Lyc%C3%A9e_Jules_Verne_-_01.jpg/1280px-Nantes_-_Lyc%C3%A9e_Jules_Verne_-_01.jpg",
+      caption: "Devant un lycée nantais (photo d'illustration).",
+      credit: "François de Dijon / Wikimedia Commons, CC BY-SA 4.0",
+    },
+    category: "societe",
+    title: "Blocus des lycées : à Nantes, une mobilisation qui divise jusque dans les rangs des élèves",
+    chapo:
+      "Depuis une semaine, poubelles et palettes barrent chaque matin les grilles d'une dizaine de lycées de la métropole. Mais derrière les slogans, la contestation est loin d'être unanime : des élèves s'organisent pour que les cours reprennent, comme à Alcide-d'Orbigny, où un compte « anti-blocus » fédère les mécontents.",
+    author: "Camille Rousseau",
+    date: "2026-10-05T07:45:00+02:00",
+    readingTime: 11,
+    views: 10420,
+    body: [
+      "Il est 7 h 15 devant le lycée Clemenceau, en plein centre de Nantes. Une vingtaine d'élèves, capuches relevées contre la bruine, empilent des conteneurs à déchets devant le portail principal. Sur une banderole peinte la veille : « Lycées sacrifiés, lycéens mobilisés ». Pour le cinquième jour consécutif, l'établissement est bloqué. Un peu plus loin, un groupe de terminales attend, sac sur le dos, que les choses se décantent. « On a un devoir de maths à 8 h. Enfin, on avait », soupire l'une d'elles.",
+      "La scène se répète, à quelques variantes près, dans une dizaine d'établissements de la métropole : Clemenceau, Jules-Verne, Livet, Carcouët, la Colinière, mais aussi Alcide-d'Orbigny à Bouaye, Les Bourdonnières ou encore le lycée de la Herdrie à Basse-Goulaine. Le mouvement, lancé le 29 septembre à l'appel de plusieurs organisations lycéennes, conteste les suppressions de postes annoncées pour la rentrée 2027 dans l'académie et la réforme du calendrier des épreuves du baccalauréat.",
+      "« On ne bloque pas pour le plaisir », insiste Inès, 17 ans, l'une des porte-parole du collectif de Clemenceau. « On bloque parce que c'est le seul moment où les adultes nous écoutent. Quand on fait une pétition, personne ne la lit. Quand on met trois poubelles devant une grille, le rectorat appelle dans l'heure. » Le rectorat, justement, dit « entendre les inquiétudes » tout en rappelant que « le droit à l'éducation ne se négocie pas » et que les blocus « exposent les élèves à des risques ».",
+      "Car tous les lycéens ne partagent pas l'enthousiasme des bloqueurs, loin de là. À mesure que les jours passent, une autre parole émerge, moins bruyante mais tout aussi déterminée : celle des élèves qui veulent simplement entrer en cours. Et dans plusieurs établissements, elle commence à s'organiser.",
+      "C'est au lycée Alcide-d'Orbigny, à Bouaye, que cette contestation de la contestation est la plus visible. Depuis le 1er octobre, un compte Instagram baptisé « Orbigny anti-blocus » publie chaque soir des messages appelant à « libérer les grilles » le lendemain matin. Lancé par un petit groupe d'élèves de première et de terminale qui souhaitent rester anonymes, il revendique plus de six cents abonnés, soit près de la moitié de l'effectif de l'établissement. Nantes Actu n'a pas été en mesure de vérifier ce chiffre de manière indépendante.",
+      "« On n'est pas contre le droit de manifester, on est contre le fait qu'une minorité décide pour tout le monde », explique l'un des administrateurs du compte, joint par messagerie. « Il y a des élèves en terminale qui préparent Parcoursup, des gens qui ont des parents qui travaillent et qui ne peuvent pas les récupérer à 8 h quand le lycée est fermé. Nous, on milite pour que les cours aient lieu. C'est aussi une forme d'engagement. » Le compte publie des tutoriels pour signaler les blocages à la direction, des modèles de courriers aux parents d'élèves et, depuis mardi, un sondage quotidien sur l'opportunité de poursuivre le mouvement.",
+      "Du côté des bloqueurs d'Orbigny, on accuse le coup. « Ça nous a surpris, on pensait que les gens contre resteraient chez eux », reconnaît Malo, membre du comité de mobilisation. « Mais ça nous oblige à mieux expliquer pourquoi on fait ça. On a organisé une assemblée générale jeudi, il y avait deux cents personnes, les deux camps ont pu parler. » Résultat du vote à main levée : la poursuite du blocus, mais seulement deux matinées par semaine, et avec une « entrée garantie » pour les élèves qui le souhaitent à partir de 9 h.",
+      "Ce compromis, inédit dans l'académie, intéresse d'autres établissements. À Jules-Verne, un groupe de parents d'élèves a adressé vendredi un courrier à la direction pour réclamer le même dispositif. À Livet, les élèves de BTS, majoritairement opposés au blocus, ont obtenu que l'entrée de l'annexe reste accessible. Des pages « anti-blocus » sont apparues sur les réseaux sociaux de trois autres lycées, avec une audience plus modeste.",
+      "La direction d'Alcide-d'Orbigny, sollicitée, n'a pas souhaité commenter l'existence du compte, mais indique « dialoguer avec l'ensemble des élèves, quelle que soit leur position ». Les équipes éducatives, elles, naviguent à vue. « Chaque matin on ne sait pas si on fera cours ou pas », témoigne une enseignante d'histoire-géographie, sous couvert d'anonymat. « Certains collègues soutiennent les élèves, d'autres sont excédés. Et beaucoup redoutent que la situation dégénère. »",
+      "Elle a failli dégénérer, mardi, devant le lycée Carcouët. Des altercations verbales entre bloqueurs et élèves voulant entrer ont nécessité l'intervention de la police municipale, sans blessé. Depuis, la préfecture a renforcé la présence des forces de l'ordre aux abords des établissements concernés aux heures d'ouverture, « à distance, pour prévenir tout débordement ». Aucun incident n'a été signalé depuis.",
+      "Au-delà des lycées, la question divise aussi les familles. Sur le forum de la fédération de parents d'élèves de Loire-Atlantique, les messages s'accumulent, entre soutien aux mobilisés et exaspération. « Ma fille a raté trois contrôles en une semaine, et elle n'a jamais été consultée », écrit une mère de Rezé. « Mon fils a appris plus de choses sur la démocratie en quatre jours de blocus qu'en un trimestre d'éducation civique », répond un père de Saint-Herblain.",
+      "La suite dépendra en grande partie de la réponse du ministère, attendue en milieu de semaine, sur le calendrier des épreuves. Les organisations lycéennes appellent à une manifestation départementale mercredi après-midi, au départ de la place du Bouffay. Le compte « Orbigny anti-blocus », lui, a déjà annoncé la couleur : il appelle ses abonnés à rester en classe. « On va compter qui est où », promet l'un de ses animateurs. Une chose est sûre : à Nantes, le blocus des lycées n'est plus un affrontement entre les élèves et l'institution. C'est aussi, désormais, un débat entre les élèves eux-mêmes.",
+    ],
+  },
+  {
     slug: "ligne-5-tramway-ouverture",
     id: 100101,
     image: {
