@@ -26,7 +26,8 @@ export type LoginEvent = {
 };
 
 function open() {
-  const dir = path.join(process.cwd(), "data");
+  // Sur Railway : monter un volume et définir DATA_DIR=/data pour conserver la base.
+  const dir = process.env.DATA_DIR || path.join(process.cwd(), "data");
   fs.mkdirSync(dir, { recursive: true });
   const db = new Database(path.join(dir, "nantes-actu.db"));
   db.pragma("journal_mode = WAL");

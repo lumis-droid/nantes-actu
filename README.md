@@ -61,10 +61,32 @@ components/                Logo, en-tête, pied de page, cartes
 
 La base est créée automatiquement dans `data/nantes-actu.db` au premier lancement.
 
-## Production
+## Déploiement sur Railway
+
+Le dépôt contient un `railway.json` (build Nixpacks, démarrage `npm start`, healthcheck sur `/login`).
+
+1. Sur [railway.app](https://railway.app) : **New Project → Deploy from GitHub repo** → `lumis-droid/nantes-actu`.
+2. Dans le service, onglet **Variables**, ajouter :
+
+   | Variable | Valeur |
+   | --- | --- |
+   | `AUTH_SECRET` | une clé longue (`openssl rand -base64 32`) |
+   | `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET` | identifiants OAuth Google |
+   | `ADMIN_PASSWORD` | mot de passe de `/admin` |
+   | `AUTH_TRUST_HOST` | `true` |
+   | `DATA_DIR` | `/data` |
+
+3. Onglet **Settings → Volumes** : ajouter un volume monté sur `/data` (sinon la base des membres est effacée à chaque déploiement).
+4. **Settings → Networking → Generate Domain** pour obtenir l'URL publique (`https://xxx.up.railway.app`).
+5. Dans la Google Cloud Console, ajouter cette URL :
+   - Origine JavaScript : `https://xxx.up.railway.app`
+   - URI de redirection : `https://xxx.up.railway.app/api/auth/callback/google`
+6. Redéployer si besoin. Le site est en ligne, l'admin sur `https://xxx.up.railway.app/admin`.
+
+## Production (autre hébergeur)
 
 ```bash
 npm run build && npm start
 ```
 
-Pensez à ajouter l'URL publique (`https://votre-domaine/api/auth/callback/google`) dans les URI de redirection Google et à définir des secrets solides dans `.env`.
+Pensez à ajouter l'URL publique (`https://votre-domaine/api/auth/callback/google`) dans les URI de redirection Google et à définir des secrets solides.
